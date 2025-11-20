@@ -1,0 +1,21 @@
+log,true_category
+Grid disconnection due to frequency deviation.,Sensor calibration fault
+Transformer #9 overheating warning.,Electrical issue
+Battery #81 communication lost.,Weather-induced error
+Battery #44 communication lost.,Mechanical issue
+Wind turbine #94 high vibration detected.,Electrical issue
+Inverter #9 DC over-voltage alarm at noon.,Mechanical issue
+MPPT #68 drift after sunset.,Battery/storage failure
+Grid disconnection due to frequency deviation.,Electrical issue
+MPPT #79 drift after sunset.,Electrical issue
+Inverter #74 DC over-voltage alarm at noon.,Battery/storage failure
+Grid disconnection due to frequency deviation.,Electrical issue
+Transformer #47 overheating warning.,Weather-induced error
+Battery #75 communication lost.,Sensor calibration fault
+Inverter #52 DC over-voltage alarm at noon.,Mechanical issue
+Solar string #28 current mismatch.,Communication fault
+Battery #43 communication lost.,Weather-induced error
+Grid disconnection due to frequency deviation.,Electrical issue
+Wind turbine #28 high vibration detected.,Electrical issue
+Grid disconnection due to frequency deviation.,Mechanical issue
+Battery #8 communication lost.,Mechanical issue

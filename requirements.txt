@@ -1,0 +1,21 @@
+# Front-end
+streamlit
+
+# Core ML Libraries
+transformers
+torch 
+sentence-transformers
+scikit-learn 
+
+# Data Handling & Visualization
+pandas
+plotly
+
+# LangChain and RAG components
+langchain # Core LangChain Expression Language (LCEL)
+langchain-core  # Typically installed with 'langchain' but good to specify
+langchain-community # For Chroma and SentenceTransformerEmbeddings
+langchain-huggingface # NEW: Required for HuggingFacePipeline wrapper
+chromadb # Vector store dependency
+
+# Removed: faiss-cpu (Not used, replaced by chromadb)
