@@ -53,7 +53,7 @@ def cached_summarizer(text: str) -> str:
     except:
         return text[:100] + "..." if len(text) > 100 else text
 
-# ==================== CLASSIFIER (92%+ Accuracy) ====================
+# ==================== CLASSIFIER ====================
 @lru_cache(maxsize=1000)
 def classify_fault_direct(log_text: str):
     text = log_text.lower()
@@ -222,7 +222,7 @@ EXPERT_KNOWLEDGE = {
         "• Most cases resolved by gateway reboot"
     ]),
 }
-# ==================== RAG CHAIN (CLEAN & SCALABLE) ====================
+# ==================== RAG CHAIN ====================
 @st.cache_resource
 def get_rag_chain():
     docs = [
@@ -270,7 +270,7 @@ def ask_rag(chain, question, history=None):
     
     q = " " + question.lower().strip() + " "
 
-    # === 100% ACCURATE TRIGGER SYSTEM ===
+   
     if any(k in q for k in ["noon", "midday", "peak sun", "12 pm", "trips at", "trip noon", "trip peak"]):
         return EXPERT_KNOWLEDGE["inverter trip noon"]
     
@@ -309,7 +309,7 @@ def ask_rag(chain, question, history=None):
     elif any(k in q for k in ["scada", "all inverters offline", "gateway offline"]):
         return EXPERT_KNOWLEDGE["scada offline"]
 
-    # === FALLBACK TO RAG (Only if no expert match) ===
+    
     try:
         response = chain.invoke({"question": question, "history": history[-8:]}).strip()
         if len(response) > 20 and "answer" in response.lower():
@@ -319,8 +319,8 @@ def ask_rag(chain, question, history=None):
     except:
         return "• System temporarily busy\n• Please perform manual inspection"
 
-# ==================== SYNTHETIC DATA ====================
-def generate_synthetic_logs(n=80):
+
+def generate_synthetic_logs(n=100):
     templates = [
         # === SOLAR PV - ELECTRICAL ===
         "Inverter #{} DC over-voltage alarm at peak noon hours",
