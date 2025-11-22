@@ -5,6 +5,7 @@ from sentence_transformers import SentenceTransformer
 from transformers import pipeline
 import streamlit as st
 from functools import lru_cache
+from sklearn.metrics.pairwise import cosine_similarity
 
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import SentenceTransformerEmbeddings
