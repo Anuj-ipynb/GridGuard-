@@ -244,7 +244,7 @@ EXPERT_KNOWLEDGE = {
         "• Most cases resolved by gateway reboot"
     ]),
 }
-# ==================== RAG CHAIN (CLEAN & SCALABLE) ====================
+# ==================== RAG CHAIN ====================
 @st.cache_resource
 def get_rag_chain():
     docs = [
@@ -292,7 +292,7 @@ def ask_rag(chain, question, history=None):
     
     q = " " + question.lower().strip() + " "
 
-    # === 100% ACCURATE TRIGGER SYSTEM ===
+   
     if any(k in q for k in ["noon", "midday", "peak sun", "12 pm", "trips at", "trip noon", "trip peak"]):
         return EXPERT_KNOWLEDGE["inverter trip noon"]
     
@@ -331,7 +331,7 @@ def ask_rag(chain, question, history=None):
     elif any(k in q for k in ["scada", "all inverters offline", "gateway offline"]):
         return EXPERT_KNOWLEDGE["scada offline"]
 
-    # === FALLBACK TO RAG (Only if no expert match) ===
+    
     try:
         response = chain.invoke({"question": question, "history": history[-8:]}).strip()
         if len(response) > 20 and "answer" in response.lower():
@@ -342,9 +342,67 @@ def ask_rag(chain, question, history=None):
         return "• System temporarily busy\n• Please perform manual inspection"
 
 
-import random
+def generate_synthetic_logs(n=100):
+    templates = [
+        # === SOLAR PV - ELECTRICAL ===
+        "Inverter #{} DC over-voltage alarm at peak noon hours",
+        "Inverter #{} tripped on over-voltage - DC bus 1487V",
+        "String {} current mismatch detected - 30% deviation",
+        "String {} reverse current detected at night",
+        "Inverter #{} ground fault alarm - insulation resistance 0.2 MΩ",
+        "Inverter #{} IGBT over-temperature shutdown 92°C",
+        "Inverter #{} showing grid under-voltage fault",
+        "MPPT #{} efficiency dropped to 68% after sunset",
+        "Inverter #{} fan failure alarm - speed 0 RPM",
 
-def generate_synthetic_logs(n=120):
+        # === SOLAR PV - WEATHER & MECHANICAL ===
+        "String {} current mismatch due to partial shading from tree",
+        "String {} low insulation alarm after heavy rain",
+        "Junction box #{} water ingress detected",
+        "Bypass diode failure in module row {}",
+        "Panel hotspot detected in string {}",
+
+        # === BATTERY ENERGY STORAGE ===
+        "Battery rack #{} BMS communication timeout",
+        "Battery #{} cell voltage deviation >80mV",
+        "BMS alarm: rack #{} over-temperature 58°C",
+        "Battery SOC stuck at 98% - balancing in progress",
+        "BMS reported cell #{} voltage 4.21V - overcharge protection",
+
+        # === COMMUNICATION & SCADA ===
+        "Modbus gateway offline - no response from RTU",
+        "RS485 communication lost with inverter #{}",
+        "CAN bus error - BMS rack #{} not responding",
+        "SCADA shows all inverters offline - network timeout",
+        "Meter #{} communication failure - no power reading",
+
+        # === WIND TURBINE ===
+        "Wind turbine #{} high vibration on main bearing",
+        "Turbine #{} gearbox temperature 88°C alarm",
+        "Pitch system fault on blade #{}",
+        "Generator over-speed trip - 1850 RPM",
+        "Anemometer reading stuck at 12.3 m/s",
+
+        # === SENSOR & CALIBRATION ===
+        "Pyranometer drift detected - reading 15% lower than reference",
+        "Temperature sensor #{} showing -40°C (faulty)",
+        "Irradiance sensor cleaning required - soiling loss 18%",
+        "Wind vane misalignment detected",
+
+        # === GRID & POWER QUALITY ===
+        "Grid frequency out of range - 49.2 Hz",
+        "Reactive power compensation failure",
+        "Harmonics exceeded limit - THD 8.2%",
+        "Power factor dropped to 0.82",
+
+        # === MISC REAL-WORLD LOGS ===
+        "Inverter #{} relay test failed during maintenance",
+        "DC cable insulation test failed at combiner box {}",
+        "Anti-islanding test passed successfully",
+        "Inverter #{} restarted after grid restoration",
+        "Night time consumption high - possible ground leakage"
+    ]
+
     logs = []
     true_labels = []
 
