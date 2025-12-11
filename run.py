@@ -2,14 +2,11 @@ from pyngrok import ngrok
 import subprocess
 import time
 
-# Start your Streamlit app in background
 print("Starting GridGuard Pro...")
 subprocess.Popen(["streamlit", "run", "app.py", "--server.port=8501"])
 
-# Wait 5 seconds for Streamlit to load
 time.sleep(5)
 
-# Create public ngrok tunnel
 public_url = ngrok.connect(8501)
 print("="*60)
 print("GRIDGUARD PRO IS NOW LIVE WORLDWIDE!")
