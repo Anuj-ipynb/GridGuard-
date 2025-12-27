@@ -1,4 +1,4 @@
-# Front-end
+
 streamlit
 
 # Core ML Libraries
@@ -17,5 +17,7 @@ langchain-core  # Typically installed with 'langchain' but good to specify
 langchain-community # For Chroma and SentenceTransformerEmbeddings
 langchain-huggingface
 chromadb # Vector store dependency
+pymupdf
+unstructured
 
 pyngrok

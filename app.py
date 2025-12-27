@@ -9,8 +9,8 @@ import re
 # Import from utils
 from utils import (
     generate_synthetic_logs, cached_summarizer, classify_fault_direct,
-    get_suggestions, get_fault_distribution, evaluate_accuracy,
-    use_ollama, llm_model_name, generate_structured_diagnosis, ask_rag, get_rag_chain
+    get_suggestions, get_fault_distribution, evaluate_accuracy,get_latency_breakdown,
+    use_ollama, llm_model_name,get_hybrid_score_contribution, generate_structured_diagnosis, ask_rag, get_rag_chain,get_accuracy_comparison
 )
 
 # ===================== CONFIG =====================
@@ -150,7 +150,6 @@ with tab2:
 
             st.subheader("Final Diagnosis")
             
-            # ULTIMATE DIAGNOSIS DISPLAY — ALL ACTIONS SHOWN (100% WORKING)
             st.markdown(f"""
             <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                         padding: 30px; border-radius: 18px; color: white; 
@@ -170,7 +169,6 @@ with tab2:
             </div>
             """, unsafe_allow_html=True)
 
-            # ALL RECOMMENDED ACTIONS — FULL LIST WITH PROPER FORMATTING
             st.markdown("<h3 style='color:#ffd700; text-align:center;'>Immediate Actions Required</h3>", unsafe_allow_html=True)
 
             actions = diagnosis["recommended_action"]
@@ -249,14 +247,21 @@ with tab4:
     col1, col2 = st.columns(2)
     with col1:
         acc = evaluate_accuracy(tuple(logs), tuple(true_labels))
-        st.metric("GridGuard Hybrid Engine", f"{acc:.1f}%", "Best-in-class")
-        st.metric("Keyword-Only Baseline", "78.2%")
-        st.metric("Embedding-Only", "86.7%")
+        st.plotly_chart(get_accuracy_comparison(), use_container_width=True)
+        st.plotly_chart(get_latency_breakdown(), use_container_width=True)
+        
+
+
     with col2:
         fig = get_fault_distribution(tuple(logs))
         st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(
+        get_hybrid_score_contribution(logs),
+        use_container_width=True)
 
-    st.success("GridGuard Pro outperforms all baselines by 10–18%")
+
+
+    
 
 # Final celebration
 if st.session_state.get('uploaded', False):
