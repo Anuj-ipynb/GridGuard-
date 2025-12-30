@@ -80,7 +80,7 @@ def classify_fault_direct(log_text: str):
         semantic_bonus[cat] = cosine_similarity([e1], [e2])[0][0]
 
 
-    scores = {cat: physics_rules[cat] + semantic_bonus[cat] * 5.0 for cat in physics_rules}
+    scores = {cat: physics_rules[cat] + semantic_bonus[cat] * 4.2 for cat in physics_rules}
     best = max(scores, key=scores.get)
     triggered = sum(1 for v in physics_rules.values() if v > 0)
     semantic_strength = semantic_bonus[best]
